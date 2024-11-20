@@ -33,7 +33,7 @@ credentials = service_account.Credentials.from_service_account_info(
 client = bigquery.Client(credentials=credentials, project=credentials.project_id)
 
 # Define BigQuery dataset and table
-dataset_id = 'public_api_data'
+dataset_id = 'jungle_scout_amazon'
 table_id = 'digitalocean_status_components'
 
 # Reference to the dataset
