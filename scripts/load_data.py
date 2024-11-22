@@ -23,6 +23,8 @@ print(data)
 # For example, let's focus on the 'components' data
 components_data = data.get('components', [])
 
+print(components_data)
+
 # # Authenticate with BigQuery using environment variable
 # credentials_info = os.environ.get('GCP_SERVICE_ACCOUNT_JSON')
 # if not credentials_info:
