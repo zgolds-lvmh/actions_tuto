@@ -23,25 +23,25 @@ print(data)
 # For example, let's focus on the 'components' data
 components_data = data.get('components', [])
 
-print(components_data)
+# print(components_data)
 
-# # Authenticate with BigQuery using environment variable
-# credentials_info = os.environ.get('GCP_SERVICE_ACCOUNT_JSON')
-# if not credentials_info:
-#     print("GCP_SERVICE_ACCOUNT_JSON environment variable not set.")
-#     exit(1)
+# Authenticate with BigQuery using environment variable
+credentials_info = os.environ.get('GCP_SERVICE_ACCOUNT_JSON')
+if not credentials_info:
+    print("GCP_SERVICE_ACCOUNT_JSON environment variable not set.")
+    exit(1)
 
-# credentials = service_account.Credentials.from_service_account_info(
-#     json.loads(credentials_info)
-# )
-# client = bigquery.Client(credentials=credentials, project=credentials.project_id)
+credentials = service_account.Credentials.from_service_account_info(
+    json.loads(credentials_info)
+)
+client = bigquery.Client(credentials=credentials, project=credentials.project_id)
 
-# # Define BigQuery dataset and table
-# dataset_id = 'jungle_scout_amazon'
-# table_id = 'digitalocean_status_components'
+# Define BigQuery dataset and table
+dataset_id = 'jungle_scout_amazon'
+table_id = 'digitalocean_status_components'
 
-# # Reference to the dataset
-# dataset_ref = client.dataset(dataset_id)
+# Reference to the dataset
+dataset_ref = client.dataset(dataset_id)
 
 # # Create the dataset if it does not exist
 # try:
@@ -54,27 +54,27 @@ print(components_data)
 #     client.create_dataset(dataset)
 #     print(f"Dataset {dataset_id} created.")
 
-# # Reference to the table
-# table_ref = dataset_ref.table(table_id)
+# Reference to the table
+table_ref = dataset_ref.table(table_id)
 
-# # Load data into BigQuery with auto schema detection
-# job_config = bigquery.LoadJobConfig(
-#     autodetect=True,
-#     write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,  # Replace the table data
-# )
+# Load data into BigQuery with auto schema detection
+job_config = bigquery.LoadJobConfig(
+    autodetect=True,
+    write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,  # Replace the table data
+)
 
-# load_job = client.load_table_from_json(
-#     components_data,
-#     table_ref,
-#     job_config=job_config
-# )
+load_job = client.load_table_from_json(
+    components_data,
+    table_ref,
+    job_config=job_config
+)
 
-# load_job.result()  # Waits for the job to complete
+load_job.result()  # Waits for the job to complete
 
-# if load_job.errors:
-#     print("Errors occurred while loading data:")
-#     for error in load_job.errors:
-#         print(error)
-#     exit(1)
+if load_job.errors:
+    print("Errors occurred while loading data:")
+    for error in load_job.errors:
+        print(error)
+    exit(1)
 
 print("Data loaded successfully.")
